@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feeding & Sleep — BabyCare</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar-figma">
+    <div class="logo-group">
+      <div class="logo-badge">
+        <img src="../assets/images/logo.png" alt="BabyCare logo" style="width:100%; height:100%; object-fit:contain;">
+      </div>
+      <span class="logo-text">BabyCare</span>
+    </div>
+
+    <button class="nav-toggle-btn" id="navToggleBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="#4A3E4E" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="nav-links" id="navLinksMenu">
+      <a href="my-babies.html" class="nav-link-figma">My Babies</a>
+      <a href="dashboard.html" class="nav-link-figma">Dashboard</a>
+      <a href="feeding-sleep.html" class="nav-link-figma active">Feeding &amp; Sleep</a>
+      <div class="nav-divider-v"></div>
+      <button class="logout-link" id="logoutBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h9" stroke="#8C7B8E" stroke-width="2"/><path d="M10 12h10m0 0-3-3m3 3-3 3" stroke="#8C7B8E" stroke-width="2"/></svg>
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <main class="dashboard-body">
+
+    <div id="pageAlert"></div>
+
+    <div>
+      <div class="card-eyebrow">0–3 months only</div>
+      <h1 class="quick-nav-title mb-0">Feeding &amp; Sleep</h1>
+    </div>
+
+    <div id="tooOldNotice" class="empty-state tracker-card d-none">
+      <div class="empty-state-icon"><i data-lucide="party-popper"></i></div>
+      <div class="section-heading">Your baby has outgrown this log</div>
+      <p class="text-muted-soft mb-0">Feeding &amp; Sleep tracking is only for babies under 3 months. Past entries are kept below.</p>
+    </div>
+
+    <div id="noBabyNotice" class="empty-state tracker-card d-none">
+      <div class="empty-state-icon"><i data-lucide="milk"></i></div>
+      <div class="section-heading">No babies yet</div>
+    </div>
+
+    <div id="logForms" class="row g-4 d-none">
+      <div class="col-md-6">
+        <div class="tracker-card">
+          <div class="card-header-row">
+            <div class="title-group-figma"><span style="font-size:18px;">+ Add Feeding</span></div>
+          </div>
+          <form id="feedingForm" class="fields-stack" style="gap: 12px;">
+            <div class="row">
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Date</label>
+                  <div class="input-box"><input type="date" id="feedDate" required></div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Time</label>
+                  <div class="input-box"><input type="time" id="feedTime" required></div>
+                </div>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Type</label>
+              <div class="input-box">
+                <select id="feedType">
+                  <option value="Breastfeeding">Breastfeeding</option>
+                  <option value="Formula">Formula</option>
+                  <option value="Solid">Solid</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Notes</label>
+              <div class="input-box"><input type="text" id="feedNotes" placeholder="Optional"></div>
+            </div>
+            <button type="submit" class="app-button" id="feedFormBtn">Add Feeding</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="tracker-card">
+          <div class="card-header-row">
+            <div class="title-group-figma"><span style="font-size:18px;">+ Add Sleep</span></div>
+          </div>
+          <form id="sleepForm" class="fields-stack" style="gap: 12px;">
+            <div class="field-group">
+              <label class="field-label">Date</label>
+              <div class="input-box"><input type="date" id="sleepDate" required></div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Start time</label>
+                  <div class="input-box"><input type="time" id="sleepStart" required></div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">End time</label>
+                  <div class="input-box"><input type="time" id="sleepEnd"></div>
+                </div>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Notes</label>
+              <div class="input-box"><input type="text" id="sleepNotes" placeholder="Optional"></div>
+            </div>
+            <button type="submit" class="app-button" id="sleepFormBtn">Add Sleep</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="tracker-card" style="padding:0;">
+          <div class="card-header-row" style="padding:20px 20px 0;">
+            <div class="title-group-figma"><span style="font-size:16px;">Feeding History</span></div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-soft mb-0">
+              <thead><tr><th>Date</th><th>Time</th><th>Type</th></tr></thead>
+              <tbody id="feedingTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="tracker-card" style="padding:0;">
+          <div class="card-header-row" style="padding:20px 20px 0;">
+            <div class="title-group-figma"><span style="font-size:16px;">Sleep History</span></div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-soft mb-0">
+              <thead><tr><th>Date</th><th>Start</th><th>End</th></tr></thead>
+              <tbody id="sleepTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/nav-toggle.js"></script>
+  <script src="../js/feeding-sleep.js"></script>
+  <script src="../js/vendor/lucide.min.js"></script>
+  <script>
+    const renderIcons = () => lucide.createIcons();
+    renderIcons();    let iconObserver;
+    const renderDynamicIcons = () => {
+      iconObserver.disconnect();
+      renderIcons();
+      iconObserver.observe(document.body, { childList: true, subtree: true });
+    };
+    iconObserver = new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.nodeType === 1 && node.matches('[data-lucide]')))) renderDynamicIcons();
+    });
+    iconObserver.observe(document.body, { childList: true, subtree: true });
+  </script>
+</body>
+</html>

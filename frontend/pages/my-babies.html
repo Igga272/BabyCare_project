@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Babies — BabyCare</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar-figma">
+    <div class="logo-group">
+      <div class="logo-badge">
+        <img src="../assets/images/logo.png" alt="BabyCare logo" style="width:100%; height:100%; object-fit:contain;">
+      </div>
+      <span class="logo-text">BabyCare</span>
+    </div>
+    <button class="logout-link" id="logoutBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h9" stroke="#8C7B8E" stroke-width="2"/><path d="M10 12h10m0 0-3-3m3 3-3 3" stroke="#8C7B8E" stroke-width="2"/></svg>
+      Logout
+    </button>
+  </nav>
+
+  <main class="dashboard-body" style="max-width: 720px; margin: 0 auto;">
+
+    <div id="pageAlert"></div>
+
+    <div class="text-center">
+      <div class="card-eyebrow">Welcome back</div>
+      <h1 class="quick-nav-title mb-0">My Babies</h1>
+    </div>
+
+    <div id="babyList" class="d-flex flex-column gap-3"></div>
+
+    <button type="button" class="app-button" style="width:auto; padding:14px 28px; margin: 12px auto 0;" data-bs-toggle="modal" data-bs-target="#addBabyModal" onclick="resetBabyForm()">+ Add Baby</button>
+
+  </main>
+
+  <!-- Add Baby Modal -->
+  <div class="modal fade" id="addBabyModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 24px; border: none;">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);">Add a baby</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="babyModalAlert"></div>
+          <form id="babyForm" class="fields-stack" style="gap: 14px;">
+            <div class="field-group">
+              <label class="field-label">Baby name</label>
+              <div class="input-box"><input type="text" id="babyFullName" required></div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Date of birth</label>
+                  <div class="input-box"><input type="date" id="babyDob" required></div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Sex</label>
+                  <div class="input-box">
+                    <select id="babyGenderInput" required>
+                      <option value="">Select…</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Birth weight (kg)</label>
+                  <div class="input-box"><input type="number" step="0.01" id="babyWeightInput"></div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Birth height (cm)</label>
+                  <div class="input-box"><input type="number" step="0.1" id="babyHeightInput"></div>
+                </div>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Choose an avatar</label>
+              <input type="hidden" id="babyAvatarId" value="1">
+              <div id="avatarPicker" class="d-flex gap-2 flex-wrap"></div>
+            </div>
+            <button type="submit" class="app-button" id="babyFormBtn">Save Baby</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/my-babies.js"></script>
+  <script src="../js/vendor/lucide.min.js"></script>
+  <script>
+    const renderIcons = () => lucide.createIcons();
+    renderIcons();
+    let iconObserver;
+    const renderDynamicIcons = () => {
+      iconObserver.disconnect();
+      renderIcons();
+      iconObserver.observe(document.body, { childList: true, subtree: true });
+    };
+    iconObserver = new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.nodeType === 1 && node.matches('[data-lucide]')))) renderDynamicIcons();
+    });
+    iconObserver.observe(document.body, { childList: true, subtree: true });
+  </script>
+</body>
+</html>

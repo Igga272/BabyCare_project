@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baby Records — BabyCare</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar-figma">
+    <div class="logo-group">
+      <div class="logo-badge">
+        <img src="../assets/images/logo.png" alt="BabyCare logo" style="width:100%; height:100%; object-fit:contain;">
+      </div>
+      <span class="logo-text">BabyCare</span>
+    </div>
+
+    <button class="nav-toggle-btn" id="navToggleBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="#4A3E4E" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="nav-links" id="navLinksMenu">
+      <a href="clinic-dashboard.html" class="nav-link-figma">Appointments</a>
+      <a href="admin-pediatricians.html" class="nav-link-figma">Pediatricians</a>
+      <a href="admin-baby-records.html" class="nav-link-figma active">Baby Records</a>
+      <div class="nav-divider-v"></div>
+      <button class="logout-link" id="logoutBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h9" stroke="#8C7B8E" stroke-width="2"/><path d="M10 12h10m0 0-3-3m3 3-3 3" stroke="#8C7B8E" stroke-width="2"/></svg>
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <main class="dashboard-body">
+
+    <div id="pageAlert"></div>
+
+    <div>
+      <div class="card-eyebrow">Search &amp; view</div>
+      <h1 class="quick-nav-title mb-0">Baby Records</h1>
+    </div>
+
+    <div class="input-box" id="searchBarWrap" style="max-width:480px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <circle cx="11" cy="11" r="7" stroke="#8C7B8E" stroke-width="2"/>
+        <path d="M20 20l-3.5-3.5" stroke="#8C7B8E" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search by baby or parent name…">
+    </div>
+
+    <div id="resultsList" class="nav-grid"></div>
+
+    <div id="profileView" class="d-none" style="display:flex; flex-direction:column; gap:20px;">
+      <button type="button" class="btn btn-sm btn-outline-primary" style="width:fit-content;" onclick="closeProfile()">← Back to search</button>
+
+      <div class="baby-hero-card-v2">
+        <div class="hero-profile">
+          <div class="baby-avatar-ring" id="profileAvatarRing">👶</div>
+          <div class="hero-meta">
+            <div class="name-row">
+              <span class="hero-name" id="profileName">—</span>
+              <span class="gender-badge" id="profileGenderBadge">—</span>
+            </div>
+            <div class="hero-subline" id="profileBornLine">—</div>
+            <div class="hero-subline" id="profileParentLine">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 flex-wrap" id="profileTabs">
+        <button class="nav-pill active" data-tab="vaccinations">Vaccinations</button>
+        <button class="nav-pill" data-tab="checkups">Checkups</button>
+        <button class="nav-pill" data-tab="tests">Newborn Tests</button>
+        <button class="nav-pill" data-tab="medications">Medications</button>
+        <button class="nav-pill" data-tab="growth">Growth</button>
+      </div>
+
+      <div id="tabContent" class="tracker-card" style="padding:0;"></div>
+    </div>
+
+  </main>
+
+  <div id="vaccineEditModal" class="modal-overlay d-none">
+    <div class="modal-card">
+      <div class="modal-card-header">
+        <h5 class="modal-card-title">Edit vaccine schedule</h5>
+        <button type="button" class="modal-close-btn" onclick="closeVaccineEditModal()">&times;</button>
+      </div>
+      <div id="vaccineEditAlert"></div>
+      <form id="vaccineEditForm" class="fields-stack" style="gap:14px;">
+        <input type="hidden" id="editVaccinationId">
+        <div class="field-group">
+          <label class="field-label">Vaccine</label>
+          <div class="input-box"><input type="text" id="editVaccineName" disabled></div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Scheduled date</label>
+          <div class="input-box"><input type="date" id="editScheduledDate" required></div>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-outline-primary" style="flex:1;" onclick="closeVaccineEditModal()">Cancel</button>
+          <button type="submit" class="app-button" style="flex:1;" id="vaccineEditSaveBtn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/nav-toggle.js"></script>
+  <script src="../js/admin-baby-records.js"></script>
+</body>
+</html>

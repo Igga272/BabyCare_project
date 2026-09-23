@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create account — BabyCare</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <div class="auth-page">
+    <div class="auth-wrapper">
+
+      <div class="auth-illustration">
+        <img src="../assets/images/mother-baby.jpg" alt="Mother holding her baby" class="auth-illustration-photo">
+        <div class="auth-illustration-scrim"></div>
+
+        <div style="position:absolute; top:24px; left:24px; z-index:2;">
+          <span style="font-family:'Boogaloo',cursive; font-size:22px; color:var(--color-primary);">BabyCare</span>
+        </div>
+
+        <div class="illustration-center">
+          <div class="splash-text">
+            <div class="splash-title" style="font-size:34px; line-height:40px;">Join our caring community.</div>
+            <div class="splash-subtitle" style="max-width:100%; text-align:left;">Track your baby's milestones with warmth and confidence.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-right">
+        <div class="form-container">
+          <div class="header-text">
+            <div class="hello-heading" style="font-size: 36px; line-height: 43px;">Join Our Care Circle</div>
+            <div class="hello-subtext">Create your account to start tracking baby milestones.</div>
+          </div>
+
+          <div id="registerAlert" style="width: 100%;"></div>
+
+          <form id="registerForm" class="fields-stack" style="gap: 16px;" novalidate>
+            <div class="field-group">
+              <label class="field-label" for="fullName">Full Name</label>
+              <div class="input-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#8B6FD1" stroke-width="2"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#8B6FD1" stroke-width="2"/></svg>
+                <input type="text" id="fullName" placeholder="juan dela cruz" required>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="email">Email Address</label>
+              <div class="input-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="#8B6FD1" stroke-width="2"/><path d="M3 7l9 6 9-6" stroke="#8B6FD1" stroke-width="2"/></svg>
+                <input type="email" id="email" placeholder="your@email.com" required>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="contactNumber">Contact Number</label>
+              <div class="input-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 4c0 9 7 16 16 16l3-4-6-3-2 2c-2-1-4-3-5-5l2-2-3-6z" stroke="#8B6FD1" stroke-width="2" stroke-linejoin="round"/></svg>
+                <input type="tel" id="contactNumber" placeholder="09XXXXXXXXXX">
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="password">Password</label>
+              <div class="input-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#8B6FD1" stroke-width="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="#8B6FD1" stroke-width="2"/></svg>
+                <input type="password" id="password" placeholder="Minimum 8 characters" minlength="8" required>
+                <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('password', this)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" stroke="#8C7B8E" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="#8C7B8E" stroke-width="2"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="confirmPassword">Confirm Password</label>
+              <div class="input-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#8B6FD1" stroke-width="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="#8B6FD1" stroke-width="2"/></svg>
+                <input type="password" id="confirmPassword" placeholder="Re-enter password" required>
+                <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('confirmPassword', this)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" stroke="#8C7B8E" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="#8C7B8E" stroke-width="2"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="action-stack" style="margin-top: 4px;">
+              <button type="submit" class="app-button" id="registerBtn">
+                <span id="registerBtnText">Create Account</span>
+              </button>
+              <div class="register-link">
+                <span>Already have an account?</span>
+                <a href="login.html">Login</a>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/password-toggle.js"></script>
+</body>
+</html>

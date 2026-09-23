@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinic Finder — BabyCare</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar-figma">
+    <div class="logo-group">
+      <div class="logo-badge">
+        <img src="../assets/images/logo.png" alt="BabyCare logo" style="width:100%; height:100%; object-fit:contain;">
+      </div>
+      <span class="logo-text">BabyCare</span>
+    </div>
+
+    <button class="nav-toggle-btn" id="navToggleBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="#4A3E4E" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="nav-links" id="navLinksMenu">
+      <a href="dashboard.html" class="nav-link-figma">Dashboard</a>
+      <a href="vaccines.html" class="nav-link-figma">Vaccine Schedule</a>
+      <a href="book-appointment.html" class="nav-link-figma">Appointments</a>
+      <a href="checkups.html" class="nav-link-figma">Checkup Log</a>
+      <a href="clinics.html" class="nav-link-figma active">Clinics</a>
+      <div class="nav-divider-v"></div>
+      <button class="logout-link" id="logoutBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h9" stroke="#8C7B8E" stroke-width="2"/><path d="M10 12h10m0 0-3-3m3 3-3 3" stroke="#8C7B8E" stroke-width="2"/></svg>
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <main class="dashboard-body">
+
+    <div id="pageAlert"></div>
+
+    <div>
+      <div class="card-eyebrow">Find care</div>
+      <h1 class="quick-nav-title mb-0">Clinic Finder</h1>
+    </div>
+
+    <div class="tracker-card" style="padding: 0; overflow: hidden;">
+      <div id="clinicMap" style="width: 100%; height: 420px;"></div>
+    </div>
+
+    <div id="clinicGrid" class="nav-grid"></div>
+
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/nav-toggle.js"></script>
+  <script src="../js/clinics.js"></script>
+  <script src="../js/vendor/lucide.min.js"></script>
+  <script>
+    const renderIcons = () => lucide.createIcons();
+    renderIcons();
+    let iconObserver;
+    const renderDynamicIcons = () => {
+      iconObserver.disconnect();
+      renderIcons();
+      iconObserver.observe(document.body, { childList: true, subtree: true });
+    };
+    iconObserver = new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.nodeType === 1 && node.matches('[data-lucide]')))) renderDynamicIcons();
+    });
+    iconObserver.observe(document.body, { childList: true, subtree: true });
+  </script>
+</body>
+</html>

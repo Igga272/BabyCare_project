@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments — BabyCare</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar-figma">
+    <div class="logo-group">
+      <div class="logo-badge">
+        <img src="../assets/images/logo.png" alt="BabyCare logo" style="width:100%; height:100%; object-fit:contain;">
+      </div>
+      <span class="logo-text">BabyCare</span>
+    </div>
+
+    <button class="nav-toggle-btn" id="navToggleBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="#4A3E4E" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="nav-links" id="navLinksMenu">
+      <a href="dashboard.html" class="nav-link-figma">Dashboard</a>
+      <a href="vaccines.html" class="nav-link-figma">Vaccine Schedule</a>
+      <a href="book-appointment.html" class="nav-link-figma active">Appointments</a>
+      <a href="checkups.html" class="nav-link-figma">Checkup Log</a>
+      <div class="nav-divider-v"></div>
+      <button class="logout-link" id="logoutBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h9" stroke="#8C7B8E" stroke-width="2"/><path d="M10 12h10m0 0-3-3m3 3-3 3" stroke="#8C7B8E" stroke-width="2"/></svg>
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <main class="dashboard-body">
+
+    <div id="pageAlert"></div>
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div>
+        <div class="card-eyebrow">Appointments</div>
+        <h1 class="quick-nav-title mb-0">My Appointments</h1>
+      </div>
+      <a href="book-appointment.html" class="app-button" style="width:auto; padding:12px 22px;">+ Book new</a>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap" id="apptTabs">
+      <button class="nav-pill active" data-tab="pending">Pending</button>
+      <button class="nav-pill" data-tab="upcoming">Upcoming</button>
+      <button class="nav-pill" data-tab="past">Past</button>
+      <button class="nav-pill" data-tab="missed">Missed</button>
+    </div>
+
+    <div id="emptyState" class="empty-state tracker-card d-none">
+      <div class="empty-state-icon"><i data-lucide="calendar-days"></i></div>
+      <div class="section-heading" id="emptyStateText">No appointments here yet</div>
+    </div>
+
+    <div id="listContent" class="tracker-card d-none" style="padding: 0;">
+      <div class="table-responsive">
+        <table class="table table-soft mb-0">
+          <thead>
+            <tr>
+              <th>Baby</th>
+              <th>Doctor</th>
+              <th>Reason</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="appointmentsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/nav-toggle.js"></script>
+  <script src="../js/appointments.js"></script>
+  <script src="../js/vendor/lucide.min.js"></script>
+  <script>
+    const renderIcons = () => lucide.createIcons();
+    renderIcons();
+    let iconObserver;
+    const renderDynamicIcons = () => {
+      iconObserver.disconnect();
+      renderIcons();
+      iconObserver.observe(document.body, { childList: true, subtree: true });
+    };
+    iconObserver = new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.nodeType === 1 && node.matches('[data-lucide]')))) renderDynamicIcons();
+    });
+    iconObserver.observe(document.body, { childList: true, subtree: true });
+  </script>
+</body>
+</html>

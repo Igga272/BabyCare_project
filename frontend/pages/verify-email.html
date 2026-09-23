@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify your email — BabyCare</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <div class="auth-page">
+    <div class="auth-wrapper">
+
+      <div class="auth-illustration">
+        <img src="../assets/images/mother-baby.jpg" alt="Mother holding her baby" class="auth-illustration-photo">
+        <div class="auth-illustration-scrim"></div>
+
+        <div style="position:absolute; top:24px; left:24px; z-index:2;">
+          <span style="font-family:'Boogaloo',cursive; font-size:22px; color:var(--color-primary);">BabyCare</span>
+        </div>
+
+        <div class="illustration-center">
+          <div class="splash-text">
+            <div class="splash-title" style="font-size:34px; line-height:40px;">Almost there!</div>
+            <div class="splash-subtitle" style="max-width:100%; text-align:left;">Just one more step before you start tracking your baby's journey.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-right">
+        <div class="form-container">
+          <div class="header-text">
+            <div class="hello-heading">Verify your email</div>
+            <div class="hello-subtext">We sent a 6-digit code to <strong id="emailDisplay">your email</strong>.</div>
+          </div>
+
+          <div id="verifyAlert" style="width: 100%;"></div>
+
+          <form id="verifyForm" class="fields-stack" novalidate>
+            <div class="field-group">
+              <label class="field-label">Verification Code</label>
+              <div class="otp-input-group" id="codeBoxes">
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-box">
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-box">
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-box">
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-box">
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-box">
+                <input type="text" maxlength="1" inputmode="numeric" class="otp-box">
+              </div>
+            </div>
+
+            <div class="action-stack">
+              <button type="submit" class="app-button" id="verifyBtn">
+                <span id="verifyBtnText">Verify</span>
+              </button>
+              <div class="register-link">
+                <span id="resendText">Didn't get a code?</span>
+                <a href="#" id="resendLink" onclick="event.preventDefault(); handleResend();">Resend code</a>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/verify-email.js"></script>
+</body>
+</html>

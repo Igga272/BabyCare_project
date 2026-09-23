@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinic Dashboard — BabyCare</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar-figma">
+    <div class="logo-group">
+      <div class="logo-badge">
+        <img src="../assets/images/logo.png" alt="BabyCare logo" style="width:100%; height:100%; object-fit:contain;">
+      </div>
+      <span class="logo-text">BabyCare</span>
+      <span class="badge-pill badge-completed" style="margin-left:8px;">Clinic Staff</span>
+    </div>
+
+    <button class="nav-toggle-btn" id="navToggleBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="#4A3E4E" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="nav-links" id="navLinksMenu">
+      <a href="clinic-dashboard.html" class="nav-link-figma active">Appointments</a>
+      <a href="admin-pediatricians.html" class="nav-link-figma">Pediatricians</a>
+      <div class="nav-divider-v"></div>
+      <button class="logout-link" id="logoutBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h9" stroke="#8C7B8E" stroke-width="2"/><path d="M10 12h10m0 0-3-3m3 3-3 3" stroke="#8C7B8E" stroke-width="2"/></svg>
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <main class="dashboard-body">
+
+    <div id="pageAlert"></div>
+
+    <div>
+      <div class="card-eyebrow">Clinic view</div>
+      <h1 class="quick-nav-title mb-0">Appointments at Your Clinic</h1>
+    </div>
+
+    <div id="emptyState" class="empty-state tracker-card d-none">
+      <div class="empty-state-icon"><i data-lucide="calendar-days"></i></div>
+      <div class="section-heading">No appointments yet</div>
+      <p class="text-muted-soft mb-0">Bookings from parents will appear here.</p>
+    </div>
+
+    <div id="listContent" class="tracker-card d-none" style="padding: 0;">
+      <div class="table-responsive">
+        <table class="table table-soft mb-0">
+          <thead>
+            <tr>
+              <th>Baby</th>
+              <th>Doctor</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="apptTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Add Checkup Modal -->
+  <div class="modal fade" id="checkupModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 24px; border: none;">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);">Add Checkup Record</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="checkupModalAlert"></div>
+          <p class="text-muted-soft" id="checkupModalBabyName"></p>
+          <form id="checkupForm" class="fields-stack" style="gap: 14px;">
+            <input type="hidden" id="checkupBabyId">
+            <input type="hidden" id="checkupAppointmentId">
+            <input type="hidden" id="checkupDoctorId">
+            <div class="field-group">
+              <label class="field-label">Checkup date</label>
+              <div class="input-box"><input type="date" id="checkupDate" required></div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Weight (kg)</label>
+                  <div class="input-box"><input type="number" step="0.01" id="checkupWeight"></div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Length (cm)</label>
+                  <div class="input-box"><input type="number" step="0.1" id="checkupHeight"></div>
+                </div>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Head circumference (cm)</label>
+              <div class="input-box"><input type="number" step="0.1" id="checkupHeadCirc"></div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Doctor's notes</label>
+              <div class="input-box">
+                <input type="text" id="checkupNotes" placeholder="e.g. Healthy, on track for age">
+              </div>
+            </div>
+            <button type="submit" class="app-button" id="checkupFormBtn">Save Record</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vaccines Modal -->
+  <div class="modal fade" id="vaccineModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 24px; border: none;">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);">Vaccine Schedule</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="vaccineModalBabyId">
+          <p class="text-muted-soft" id="vaccineModalBabyName"></p>
+          <div id="vaccineModalList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Growth Modal -->
+  <div class="modal fade" id="growthModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 24px; border: none;">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);">Add Growth Record</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="growthModalAlert"></div>
+          <p class="text-muted-soft" id="growthModalBabyName"></p>
+          <form id="growthForm" class="fields-stack" style="gap: 14px;">
+            <input type="hidden" id="growthBabyId">
+            <div class="field-group">
+              <label class="field-label">Record date</label>
+              <div class="input-box"><input type="date" id="growthDate" required></div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Weight (kg)</label>
+                  <div class="input-box"><input type="number" step="0.01" id="growthWeight"></div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Length (cm)</label>
+                  <div class="input-box"><input type="number" step="0.1" id="growthHeight"></div>
+                </div>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Head circumference (cm)</label>
+              <div class="input-box"><input type="number" step="0.1" id="growthHeadCirc"></div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Notes</label>
+              <div class="input-box"><input type="text" id="growthNotes" placeholder="Optional"></div>
+            </div>
+            <button type="submit" class="app-button" id="growthFormBtn">Save Record</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newborn Test Modal -->
+  <div class="modal fade" id="testModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 24px; border: none;">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);">Add Test Result</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="testModalAlert"></div>
+          <p class="text-muted-soft" id="testModalBabyName"></p>
+          <form id="testForm" class="fields-stack" style="gap: 14px;">
+            <input type="hidden" id="testBabyId">
+            <div class="field-group">
+              <label class="field-label">Test type</label>
+              <div class="input-box">
+                <select id="testType" required>
+                  <option value="Newborn Screening">Newborn Screening</option>
+                  <option value="Hearing Screening">Hearing Screening</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Date conducted</label>
+              <div class="input-box"><input type="date" id="testDate" required></div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Result</label>
+              <div class="input-box">
+                <select id="testResult">
+                  <option value="Normal">Normal</option>
+                  <option value="Passed">Passed</option>
+                  <option value="Refer">Needs Follow-up</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Notes</label>
+              <div class="input-box"><input type="text" id="testNotes" placeholder="Optional"></div>
+            </div>
+            <button type="submit" class="app-button" id="testFormBtn">Save Result</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Medicine Modal -->
+  <div class="modal fade" id="medModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 24px; border: none;">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);">Prescribe Medicine</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="medModalAlert"></div>
+          <p class="text-muted-soft" id="medModalBabyName"></p>
+          <form id="medForm" class="fields-stack" style="gap: 14px;">
+            <input type="hidden" id="medBabyId">
+            <input type="hidden" id="medDoctorId">
+            <div class="field-group">
+              <label class="field-label">Medicine name</label>
+              <div class="input-box"><input type="text" id="medName" placeholder="e.g. Amoxicillin" required></div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Dosage</label>
+              <div class="input-box"><input type="text" id="medDosage" placeholder="e.g. 0.5 mL"></div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Schedule times</label>
+              <div class="d-flex gap-2">
+                <div class="input-box" style="flex:1;"><input type="time" id="medScheduleTimeInput"></div>
+                <button type="button" class="btn btn-outline-primary" onclick="addMedScheduleTime()">Add</button>
+              </div>
+              <div id="medScheduleChips" class="d-flex gap-2 flex-wrap mt-2"></div>
+              <input type="hidden" id="medSchedule">
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">Start date</label>
+                  <div class="input-box"><input type="date" id="medStartDate" required></div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="field-group">
+                  <label class="field-label">End date</label>
+                  <div class="input-box"><input type="date" id="medEndDate"></div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="app-button" id="medFormBtn">Save Medicine</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/nav-toggle.js"></script>
+  <script src="../js/clinic-dashboard.js"></script>
+  <script src="../js/vendor/lucide.min.js"></script>
+  <script>
+    const renderIcons = () => lucide.createIcons();
+    renderIcons();
+    let iconObserver;
+    const renderDynamicIcons = () => {
+      iconObserver.disconnect();
+      renderIcons();
+      iconObserver.observe(document.body, { childList: true, subtree: true });
+    };
+    iconObserver = new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.nodeType === 1 && node.matches('[data-lucide]')))) renderDynamicIcons();
+    });
+    iconObserver.observe(document.body, { childList: true, subtree: true });
+  </script>
+</body>
+</html>
