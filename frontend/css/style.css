@@ -896,7 +896,26 @@ a:hover {
 
   .quick-nav-title { font-size: 22px; line-height: 27px; }
 
-  .nav-grid { grid-template-columns: 1fr; }
+  .nav-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  .nav-card-figma {
+    padding: 16px;
+    gap: 8px;
+  }
+
+  .nav-icon-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .nav-card-title {
+    font-size: 14px;
+  }
+
+  .nav-card-sub {
+    font-size: 12px;
+  }
 
   .form-container { max-width: 100%; }
 
