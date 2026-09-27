@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'babycareproject-production.up.railway.app/api';
 
 function getToken() {
   return localStorage.getItem('babycare_token');
