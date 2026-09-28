@@ -37,7 +37,7 @@
     <div id="dashboardAlert"></div>
 
     <div id="noBabiesState" class="empty-state card-soft d-none">
-      <div class="empty-state-icon"><i data-lucide="milk"></i></div>
+      <div class="empty-state-icon">🍼</div>
       <div class="section-heading">No babies added yet</div>
       <p class="text-muted-soft mb-3">Add your first baby profile to start tracking vaccines and growth.</p>
       <button class="app-button" style="width:auto; padding:12px 24px;" data-bs-toggle="modal" data-bs-target="#addBabyModal">+ Add your first baby</button>
@@ -47,7 +47,7 @@
 
       <div class="baby-hero-card-v2">
         <div class="hero-profile">
-          <div class="baby-avatar-ring" id="babyAvatarRing"><i data-lucide="baby"></i></div>
+          <div class="baby-avatar-ring" id="babyAvatarRing">👶</div>
           <div class="hero-meta">
             <div class="name-row">
               <span class="hero-name" id="babyName">—</span>
@@ -179,7 +179,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="border-radius: 24px; border: none;">
         <div class="modal-header border-0">
-          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);" id="babyModalTitle">Add a baby</h5>
+          <h5 class="modal-title" style="color:var(--color-text);" id="babyModalTitle">Add a baby</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
@@ -241,20 +241,5 @@
   <script src="../js/nav-toggle.js"></script>
   <script src="../js/dashboard.js"></script>
   <script src="../js/notifications.js"></script>
-  <script src="../js/vendor/lucide.min.js"></script>
-  <script>
-    const renderIcons = () => lucide.createIcons();
-    renderIcons();
-    let iconObserver;
-    const renderDynamicIcons = () => {
-      iconObserver.disconnect();
-      renderIcons();
-      iconObserver.observe(document.body, { childList: true, subtree: true });
-    };
-    iconObserver = new MutationObserver((mutations) => {
-      if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.nodeType === 1 && node.matches('[data-lucide]')))) renderDynamicIcons();
-    });
-    iconObserver.observe(document.body, { childList: true, subtree: true });
-  </script>
 </body>
 </html>
