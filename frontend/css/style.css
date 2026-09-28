@@ -896,7 +896,9 @@ a:hover {
 
   .quick-nav-title { font-size: 22px; line-height: 27px; }
 
-  .nav-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .nav-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+
+  .quick-nav-section .nav-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   .nav-card-figma {
     padding: 16px;
@@ -1272,4 +1274,72 @@ a:hover {
 }
 .otp-box:focus {
   border-color: var(--color-primary);
+}
+
+.hospital-map {
+  width: 100%;
+  height: 280px;
+}
+
+@media (max-width: 768px) {
+  .hospital-map { height: 220px; }
+
+  .nav-card-figma,
+  .tracker-card {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .table.table-stack thead { display: none; }
+
+  .table.table-stack,
+  .table.table-stack tbody,
+  .table.table-stack tr,
+  .table.table-stack td {
+    display: block;
+    width: 100%;
+  }
+
+  .table.table-stack tr {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .table.table-stack tr:last-child { border-bottom: none; }
+
+  .table.table-stack td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 0;
+    border: none;
+    text-align: right;
+  }
+
+  .table.table-stack td[data-label]::before {
+    content: attr(data-label);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    text-align: left;
+  }
+
+  .table.table-stack td.appt-actions-cell {
+    display: block;
+    padding-top: 12px;
+  }
+
+  .appt-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .appt-actions .btn {
+    width: 100%;
+    margin: 0 !important;
+    white-space: normal;
+  }
 }
