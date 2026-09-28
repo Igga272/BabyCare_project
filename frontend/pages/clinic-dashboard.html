@@ -40,14 +40,14 @@
     </div>
 
     <div id="emptyState" class="empty-state tracker-card d-none">
-      <div class="empty-state-icon"><i data-lucide="calendar-days"></i></div>
+      <div class="empty-state-icon">📅</div>
       <div class="section-heading">No appointments yet</div>
       <p class="text-muted-soft mb-0">Bookings from parents will appear here.</p>
     </div>
 
     <div id="listContent" class="tracker-card d-none" style="padding: 0;">
       <div class="table-responsive">
-        <table class="table table-soft mb-0">
+        <table class="table table-soft table-stack mb-0">
           <thead>
             <tr>
               <th>Baby</th>
@@ -70,7 +70,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="border-radius: 24px; border: none;">
         <div class="modal-header border-0">
-          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);">Add Checkup Record</h5>
+          <h5 class="modal-title" style="color:var(--color-text);">Add Checkup Record</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
@@ -120,7 +120,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="border-radius: 24px; border: none;">
         <div class="modal-header border-0">
-          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);">Vaccine Schedule</h5>
+          <h5 class="modal-title" style="color:var(--color-text);">Vaccine Schedule</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
@@ -137,7 +137,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="border-radius: 24px; border: none;">
         <div class="modal-header border-0">
-          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);">Add Growth Record</h5>
+          <h5 class="modal-title" style="color:var(--color-text);">Add Growth Record</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
@@ -183,7 +183,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="border-radius: 24px; border: none;">
         <div class="modal-header border-0">
-          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);">Add Test Result</h5>
+          <h5 class="modal-title" style="color:var(--color-text);">Add Test Result</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
@@ -231,7 +231,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="border-radius: 24px; border: none;">
         <div class="modal-header border-0">
-          <h5 class="modal-title" style="font-family:'Boogaloo',cursive; color:var(--color-text);">Prescribe Medicine</h5>
+          <h5 class="modal-title" style="color:var(--color-text);">Prescribe Medicine</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
@@ -282,20 +282,5 @@
   <script src="../js/api.js"></script>
   <script src="../js/nav-toggle.js"></script>
   <script src="../js/clinic-dashboard.js"></script>
-  <script src="../js/vendor/lucide.min.js"></script>
-  <script>
-    const renderIcons = () => lucide.createIcons();
-    renderIcons();
-    let iconObserver;
-    const renderDynamicIcons = () => {
-      iconObserver.disconnect();
-      renderIcons();
-      iconObserver.observe(document.body, { childList: true, subtree: true });
-    };
-    iconObserver = new MutationObserver((mutations) => {
-      if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.nodeType === 1 && node.matches('[data-lucide]')))) renderDynamicIcons();
-    });
-    iconObserver.observe(document.body, { childList: true, subtree: true });
-  </script>
 </body>
 </html>
