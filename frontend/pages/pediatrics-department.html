@@ -57,9 +57,9 @@
         </div>
       </div>
 
-      <div class="col-lg-4">
+      <div class="col-lg-4 order-first order-lg-last">
         <div class="tracker-card" style="padding: 0; overflow: hidden;">
-          <div id="hospitalMap" style="width: 100%; height: 280px;"></div>
+          <div id="hospitalMap" class="hospital-map"></div>
         </div>
       </div>
     </div>
@@ -77,20 +77,6 @@
         window.location.href = 'login.html';
       });
     });
-  </script>
-  <script src="../js/vendor/lucide.min.js"></script>
-  <script>
-    const renderIcons = () => lucide.createIcons();
-    renderIcons();    let iconObserver;
-    const renderDynamicIcons = () => {
-      iconObserver.disconnect();
-      renderIcons();
-      iconObserver.observe(document.body, { childList: true, subtree: true });
-    };
-    iconObserver = new MutationObserver((mutations) => {
-      if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.nodeType === 1 && node.matches('[data-lucide]')))) renderDynamicIcons();
-    });
-    iconObserver.observe(document.body, { childList: true, subtree: true });
   </script>
 </body>
 </html>
