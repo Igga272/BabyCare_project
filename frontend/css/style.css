@@ -1343,3 +1343,32 @@ a:hover {
     white-space: normal;
   }
 }
+
+@media (max-width: 768px) {
+  .emergency-card {
+    padding: 14px;
+  }
+
+  .emergency-card .nav-icon-badge {
+    width: 36px;
+    height: 36px;
+  }
+
+  .emergency-card .nav-icon-badge svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .emergency-card .nav-card-title {
+    font-size: 14px;
+  }
+
+  .emergency-card .nav-card-sub {
+    font-size: 12px;
+  }
+
+  .emergency-call-btn {
+    padding: 10px 14px !important;
+    font-size: 13px;
+  }
+}
