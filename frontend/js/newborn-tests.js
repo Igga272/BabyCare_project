@@ -35,11 +35,9 @@ async function loadTests() {
     grid.innerHTML = tests.map((t) => {
       const isDone = t.status === 'completed';
       return `
-        <div class="nav-card-figma" style="cursor:default;">
-          <div class="d-flex justify-content-end">
-            <span class="status-badge-figma ${isDone ? 'status-completed-figma' : 'status-pending-figma'}">${isDone ? 'Completed' : 'Pending'}</span>
-          </div>
-          <div class="nav-text">
+        <div class="nav-card-figma" style="cursor:default; position:relative;">
+          <span class="status-badge-figma ${isDone ? 'status-completed-figma' : 'status-pending-figma'}" style="position:absolute; top:16px; right:16px;">${isDone ? 'Completed' : 'Pending'}</span>
+          <div class="nav-text" style="padding-right:80px;">
             <div class="nav-card-title">${t.test_type}</div>
             ${t.date_conducted ? `<div class="nav-card-sub">Date: ${formatDate(t.date_conducted)}</div>` : ''}
             ${t.result ? `<div class="nav-card-sub">Result: ${t.result}</div>` : ''}
