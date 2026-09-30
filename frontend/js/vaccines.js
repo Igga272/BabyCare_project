@@ -51,10 +51,10 @@ async function loadSchedule() {
 
     tbody.innerHTML = schedule.map((item) => `
       <tr>
-        <td class="fw-bold">${item.vaccines.name}</td>
-        <td class="text-muted-soft small">${item.vaccines.description}</td>
-        <td>${formatDate(item.scheduled_date)}</td>
-        <td>${statusBadgeHtml(item.status)}${item.status === 'completed' ? `<div class="text-muted-soft small mt-1">Given ${formatDate(item.completed_date)}</div>` : ''}</td>
+        <td data-label="Vaccine" class="fw-bold">${item.vaccines.name}</td>
+        <td data-label="Description" class="text-muted-soft small">${item.vaccines.description}</td>
+        <td data-label="Scheduled date">${formatDate(item.scheduled_date)}</td>
+        <td data-label="Status">${statusBadgeHtml(item.status)}${item.status === 'completed' ? `<div class="text-muted-soft small mt-1">Given ${formatDate(item.completed_date)}</div>` : ''}</td>
       </tr>
     `).join('');
   } catch (err) {
