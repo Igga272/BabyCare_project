@@ -36,8 +36,7 @@ async function loadTests() {
       const isDone = t.status === 'completed';
       return `
         <div class="nav-card-figma" style="cursor:default;">
-          <div class="d-flex justify-content-between align-items-start">
-            <div class="nav-icon-badge ${isDone ? 'mint' : 'yellow'}"><i data-lucide="${isDone ? 'circle-check' : 'hourglass'}" style="width:24px;height:24px;"></i></div>
+          <div class="d-flex justify-content-end">
             <span class="status-badge-figma ${isDone ? 'status-completed-figma' : 'status-pending-figma'}">${isDone ? 'Completed' : 'Pending'}</span>
           </div>
           <div class="nav-text">
