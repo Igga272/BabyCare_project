@@ -118,11 +118,11 @@ function renderTable(records) {
   const tbody = document.getElementById('growthTableBody');
   tbody.innerHTML = [...records].reverse().map((r) => `
     <tr>
-      <td class="fw-bold">${formatDate(r.record_date)}</td>
-      <td>${r.weight_kg ? r.weight_kg + ' kg' : '—'}</td>
-      <td>${r.height_cm ? r.height_cm + ' cm' : '—'}</td>
-      <td>${r.head_circumference_cm ? r.head_circumference_cm + ' cm' : '—'}</td>
-      <td>${r.notes || '—'}</td>
+      <td data-label="Date" class="fw-bold">${formatDate(r.record_date)}</td>
+      <td data-label="Weight">${r.weight_kg ? r.weight_kg + ' kg' : '—'}</td>
+      <td data-label="Length">${r.height_cm ? r.height_cm + ' cm' : '—'}</td>
+      <td data-label="Head Circ.">${r.head_circumference_cm ? r.head_circumference_cm + ' cm' : '—'}</td>
+      <td data-label="Notes">${r.notes || '—'}</td>
     </tr>
   `).join('');
 }
