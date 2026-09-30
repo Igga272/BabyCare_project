@@ -50,12 +50,12 @@ async function loadCheckups() {
     const tbody = document.getElementById('checkupTableBody');
     tbody.innerHTML = records.map((r) => `
       <tr>
-        <td class="fw-bold">${formatDate(r.checkup_date)}</td>
-        <td>${r.doctors?.full_name || '—'}</td>
-        <td>${r.weight_kg ? r.weight_kg + ' kg' : '—'}</td>
-        <td>${r.height_cm ? r.height_cm + ' cm' : '—'}</td>
-        <td>${r.head_circumference_cm ? r.head_circumference_cm + ' cm' : '—'}</td>
-        <td>${r.doctor_notes || '—'}</td>
+        <td data-label="Date" class="fw-bold">${formatDate(r.checkup_date)}</td>
+        <td data-label="Doctor">${r.doctors?.full_name || '—'}</td>
+        <td data-label="Weight">${r.weight_kg ? r.weight_kg + ' kg' : '—'}</td>
+        <td data-label="Length">${r.height_cm ? r.height_cm + ' cm' : '—'}</td>
+        <td data-label="Head Circ.">${r.head_circumference_cm ? r.head_circumference_cm + ' cm' : '—'}</td>
+        <td data-label="Doctor's Notes">${r.doctor_notes || '—'}</td>
       </tr>
     `).join('');
   } catch (err) {
