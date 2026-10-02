@@ -21,6 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
   loadDoctors();
 });
 
+const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+function isDoctorAvailableNow(doctor) {
+  if (!doctor.available_days || !doctor.available_time_start || !doctor.available_time_end) return false;
+
+  const days = doctor.available_days.split(',');
+  const now = new Date();
+  const todayName = DAY_NAMES[now.getDay()];
+
+  if (!days.includes(todayName)) return false;
+
+  const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+  const start = doctor.available_time_start.slice(0, 5);
+  const end = doctor.available_time_end.slice(0, 5);
+
+  return currentTime >= start && currentTime <= end;
+}
+
 async function loadDoctors() {
   try {
     const result = await apiRequest('/doctors');
@@ -33,9 +51,10 @@ async function loadDoctors() {
     }
 
     grid.innerHTML = doctorsCache.map((d, index) => {
-      const statusBadge = d.status === 'unavailable'
-        ? `<span class="status-badge-figma status-cancelled-figma">Unavailable</span>`
-        : `<span class="status-badge-figma status-completed-figma">Available</span>`;
+      const availableNow = isDoctorAvailableNow(d);
+      const statusBadge = availableNow
+        ? `<span class="status-badge-figma status-completed-figma">Available</span>`
+        : `<span class="status-badge-figma status-cancelled-figma">Unavailable</span>`;
 
       const days = d.available_days ? d.available_days.split(',').join(', ') : 'Not set';
       const timeRange = (d.available_time_start && d.available_time_end)
@@ -43,11 +62,9 @@ async function loadDoctors() {
         : 'Not set';
 
       return `
-        <div class="nav-card-figma" style="cursor:default;">
-          <div class="d-flex justify-content-end">
-            ${statusBadge}
-          </div>
-          <div class="nav-text">
+        <div class="nav-card-figma" style="cursor:default; position:relative;">
+          <span style="position:absolute; top:16px; right:16px;">${statusBadge}</span>
+          <div class="nav-text" style="padding-right:80px;">
             <div class="nav-card-title">${d.full_name}</div>
             <div class="nav-card-sub">${d.specialization || '—'}</div>
             <div class="nav-card-sub">Days: ${days}</div>
@@ -83,7 +100,6 @@ function openEditDoctorModal(index) {
   document.getElementById('doctorId').value = doctor.id;
   document.getElementById('doctorFullName').value = doctor.full_name;
   document.getElementById('doctorSpecialization').value = doctor.specialization || '';
-  document.getElementById('doctorStatus').value = doctor.status || 'available';
   document.getElementById('doctorTimeStart').value = doctor.available_time_start ? doctor.available_time_start.slice(0,5) : '';
   document.getElementById('doctorTimeEnd').value = doctor.available_time_end ? doctor.available_time_end.slice(0,5) : '';
 
@@ -110,7 +126,7 @@ async function handleSaveDoctor(e) {
   const payload = {
     full_name: document.getElementById('doctorFullName').value.trim(),
     specialization: document.getElementById('doctorSpecialization').value.trim(),
-    status: document.getElementById('doctorStatus').value,
+    status: 'available',
     available_days: selectedDays.join(','),
     available_time_start: document.getElementById('doctorTimeStart').value || null,
     available_time_end: document.getElementById('doctorTimeEnd').value || null,
