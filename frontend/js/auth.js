@@ -13,7 +13,63 @@ document.addEventListener('DOMContentLoaded', () => {
   if (registerForm) {
     registerForm.addEventListener('submit', handleRegister);
   }
+
+  const fullNameInput = document.getElementById('fullName');
+  if (fullNameInput) {
+    fullNameInput.addEventListener('input', handleNameInput);
+  }
+
+  const contactNumberInput = document.getElementById('contactNumber');
+  if (contactNumberInput) {
+    contactNumberInput.addEventListener('input', handlePhoneInput);
+    contactNumberInput.addEventListener('focus', handlePhoneFocus);
+  }
+
+  const passwordInput = document.getElementById('password');
+  if (passwordInput && document.getElementById('passwordWarning')) {
+    passwordInput.addEventListener('input', handlePasswordInput);
+  }
 });
+
+function handleNameInput(e) {
+  const input = e.target;
+  const pos = input.selectionStart;
+  input.value = input.value.replace(/(^|\s)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+  input.selectionStart = input.selectionEnd = pos;
+}
+
+function handlePhoneFocus(e) {
+  if (!e.target.value) {
+    e.target.value = '+63';
+  }
+}
+
+function handlePhoneInput(e) {
+  const input = e.target;
+  const warningEl = document.getElementById('contactNumberWarning');
+  let digits = input.value.replace(/^\+63/, '').replace(/\D/g, '');
+
+  if (digits.length > 10) {
+    digits = digits.slice(0, 10);
+    if (warningEl) warningEl.textContent = 'Phone number must be exactly 10 digits after +63.';
+  } else if (warningEl) {
+    warningEl.textContent = '';
+  }
+
+  input.value = '+63' + digits;
+}
+
+function handlePasswordInput(e) {
+  const input = e.target;
+  const warningEl = document.getElementById('passwordWarning');
+
+  if (input.value.length > 10) {
+    input.value = input.value.slice(0, 10);
+    if (warningEl) warningEl.textContent = 'Password must be at most 10 characters.';
+  } else if (warningEl) {
+    warningEl.textContent = '';
+  }
+}
 
 async function handleLogin(e) {
   e.preventDefault();
