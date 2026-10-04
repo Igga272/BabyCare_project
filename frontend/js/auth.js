@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function handleNameInput(e) {
   const input = e.target;
   const pos = input.selectionStart;
-  input.value = input.value.replace(/(^|\s)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+  input.value = input.value.toUpperCase();
   input.selectionStart = input.selectionEnd = pos;
 }
 
