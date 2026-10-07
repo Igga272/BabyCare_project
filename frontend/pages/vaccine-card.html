@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vaccine Card — BabyCare</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar-figma">
+    <div class="logo-group">
+      <div class="logo-badge">
+        <img src="../assets/images/logo.png" alt="BabyCare logo" style="width:100%; height:100%; object-fit:contain;">
+      </div>
+      <span class="logo-text">BabyCare</span>
+    </div>
+
+    <button class="nav-toggle-btn" id="navToggleBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="#4A3E4E" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="nav-links" id="navLinksMenu">
+      <a href="dashboard.html" class="nav-link-figma">Dashboard</a>
+      <a href="vaccines.html" class="nav-link-figma">Vaccine Schedule</a>
+      <a href="vaccine-card.html" class="nav-link-figma active">Vaccine Card</a>
+      <div class="nav-divider-v"></div>
+      <button class="logout-link" id="logoutBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h9" stroke="#8C7B8E" stroke-width="2"/><path d="M10 12h10m0 0-3-3m3 3-3 3" stroke="#8C7B8E" stroke-width="2"/></svg>
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <main class="dashboard-body">
+
+    <div id="pageAlert"></div>
+
+    <div>
+      <div class="card-eyebrow">Immunization</div>
+      <h1 class="quick-nav-title mb-0">Digital Vaccine Card</h1>
+    </div>
+
+    <div id="noBabiesState" class="empty-state tracker-card d-none">
+      <div class="empty-state-icon"><i data-lucide="syringe"></i></div>
+      <div class="section-heading">No babies added yet</div>
+    </div>
+
+    <div id="cardContent" class="d-none">
+
+      <div class="vaccine-card-sheet">
+        <div class="vaccine-card-header">
+          <div class="vaccine-card-brand">BabyCare Immunization Record</div>
+          <div class="vaccine-card-baby-row">
+            <div>
+              <div class="vaccine-card-label">Child's Name</div>
+              <div class="vaccine-card-value" id="cardBabyName">—</div>
+            </div>
+            <div>
+              <div class="vaccine-card-label">Date of Birth</div>
+              <div class="vaccine-card-value" id="cardBabyDob">—</div>
+            </div>
+            <div>
+              <div class="vaccine-card-label">Sex</div>
+              <div class="vaccine-card-value" id="cardBabySex">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vaccine-card-progress">
+          <div class="vaccine-card-progress-text" id="cardProgressText">0 of 0 vaccines completed</div>
+          <div class="progress-track-figma">
+            <div class="progress-fill-figma" id="cardProgressFill" style="width:0%;"></div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="vaccine-card-table">
+            <thead>
+              <tr>
+                <th>Vaccine</th>
+                <th>Dose</th>
+                <th>Scheduled Date</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody id="cardTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/nav-toggle.js"></script>
+  <script src="../js/vaccine-card.js"></script>
+  <script src="../js/vendor/lucide.min.js"></script>
+  <script>
+    const renderIcons = () => lucide.createIcons();
+    renderIcons();
+    let iconObserver;
+    const renderDynamicIcons = () => {
+      iconObserver.disconnect();
+      renderIcons();
+      iconObserver.observe(document.body, { childList: true, subtree: true });
+    };
+    iconObserver = new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.nodeType === 1 && node.matches('[data-lucide]')))) renderDynamicIcons();
+    });
+    iconObserver.observe(document.body, { childList: true, subtree: true });
+  </script>
+</body>
+</html>
