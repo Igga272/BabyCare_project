@@ -1372,3 +1372,110 @@ a:hover {
     font-size: 13px;
   }
 }
+
+.vaccine-card-sheet {
+  background: #ffffff;
+  border: 2px solid var(--color-border);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(74, 62, 78, 0.1);
+}
+
+.vaccine-card-header {
+  padding: 24px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  color: #fff;
+}
+
+.vaccine-card-brand {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.vaccine-card-baby-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.vaccine-card-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 2px;
+}
+
+.vaccine-card-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.vaccine-card-progress {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.vaccine-card-progress-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.vaccine-card-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.vaccine-card-table thead th {
+  background: var(--color-sunshine);
+  color: #4A3E4E;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 10px 16px;
+  text-align: left;
+  border: 1px solid #E8C860;
+}
+
+.vaccine-card-table td {
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  font-size: 14px;
+  color: var(--color-text);
+  vertical-align: middle;
+}
+
+.vaccine-card-name {
+  font-weight: 700;
+}
+
+.vaccine-card-row-done {
+  background: var(--color-success-bg);
+}
+
+.vaccine-card-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .vaccine-card-baby-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .vaccine-card-table th,
+  .vaccine-card-table td {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}
