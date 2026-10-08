@@ -54,7 +54,7 @@ async function loadSchedule() {
         <td data-label="Vaccine" class="fw-bold">${item.vaccines.name}</td>
         <td data-label="Description" class="text-muted-soft small">${item.vaccines.description}</td>
         <td data-label="Scheduled date">${formatDate(item.scheduled_date)}</td>
-        <td data-label="Status">${statusBadgeHtml(item.status)}${item.status === 'completed' ? `<div class="text-muted-soft small mt-1">Given ${formatDate(item.completed_date)}</div>` : ''}</td>
+        <td data-label="Status">${item.status === 'completed' ? '—' : statusBadgeHtml(item.status)}</td>
       </tr>
     `).join('');
   } catch (err) {
