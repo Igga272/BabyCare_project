@@ -60,12 +60,6 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
-function formatDateLabel(isoDate) {
-  const date = new Date(`${isoDate}T00:00:00Z`);
-  if (Number.isNaN(date.getTime())) return String(isoDate);
-  return date.toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'short', day: 'numeric' });
-}
-
 async function sendMedicineReminderEmail(to, { medicineName, babyName, dosage }) {
   await sendBrevoEmail({
     to,
@@ -74,17 +68,4 @@ async function sendMedicineReminderEmail(to, { medicineName, babyName, dosage })
   });
 }
 
-async function sendVaccineReminderEmail(to, { babyName, vaccines }) {
-  const count = vaccines.length;
-  const items = vaccines
-    .map((v) => `<li><strong>${escapeHtml(v.name)}</strong> — scheduled ${escapeHtml(formatDateLabel(v.scheduledDate))} (${v.status === 'overdue' ? 'overdue' : 'due now'})</li>`)
-    .join('');
-
-  await sendBrevoEmail({
-    to,
-    subject: `Vaccine Reminder for ${babyName} — BabyCare`,
-    htmlContent: `<p><strong>${escapeHtml(babyName)}</strong> has ${count} vaccine${count === 1 ? '' : 's'} waiting:</p><ul>${items}</ul><p>Please visit the clinic to get ${count === 1 ? 'it' : 'them'} done.</p><p>This is an automatic reminder from BabyCare.</p>`
-  });
-}
-
-module.exports = { sendVerificationEmail, sendPasswordResetEmail, sendMedicineReminderEmail, sendVaccineReminderEmail };
+module.exports = { sendVerificationEmail, sendPasswordResetEmail, sendMedicineReminderEmail };
