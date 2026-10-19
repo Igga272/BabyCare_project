@@ -1,91 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vaccine Schedule — BabyCare</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../css/style.css" rel="stylesheet">
-</head>
-<body>
+let babiesCache = [];
+let selectedBabyId = null;
 
-  <nav class="navbar-figma">
-    <div class="logo-group">
-      <div class="logo-badge">
-        <img src="../assets/images/logo.png" alt="BabyCare logo" style="width:100%; height:100%; object-fit:contain;">
-      </div>
-      <span class="logo-text">BabyCare</span>
-    </div>
+document.addEventListener('DOMContentLoaded', () => {
+  requireAuth();
 
-    <button class="nav-toggle-btn" id="navToggleBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="#4A3E4E" stroke-width="2" stroke-linecap="round"/></svg></button>
-    <div class="nav-links" id="navLinksMenu">
-      <a href="my-babies.html" class="nav-link-figma">My Babies</a>
-      <a href="dashboard.html" class="nav-link-figma">Dashboard</a>
-      <a href="vaccines.html" class="nav-link-figma active">Vaccine Schedule</a>
-      <a href="vaccine-card.html" class="nav-link-figma">Vaccine Card</a>
-      <a href="book-appointment.html" class="nav-link-figma">Appointments</a>
-      <a href="checkups.html" class="nav-link-figma">Checkup Log</a>
-      <div class="nav-divider-v"></div>
-      <button class="logout-link" id="logoutBtn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h9" stroke="#8C7B8E" stroke-width="2"/><path d="M10 12h10m0 0-3-3m3 3-3 3" stroke="#8C7B8E" stroke-width="2"/></svg>
-        Logout
-      </button>
-    </div>
-  </nav>
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    clearToken();
+    window.location.href = 'login.html';
+  });
 
-  <main class="dashboard-body">
+  loadBabies();
+});
 
-    <div id="pageAlert"></div>
+async function loadBabies() {
+  try {
+    const result = await apiRequest('/babies');
+    babiesCache = result.data;
 
-    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-      <div>
-        <div class="card-eyebrow">Immunization</div>
-        <h1 class="quick-nav-title mb-0">Vaccine Schedule</h1>
-      </div>
-      <a href="vaccine-card.html" class="app-button" style="width:auto; padding:12px 22px;">View Digital Card</a>
-    </div>
+    if (babiesCache.length === 0) {
+      document.getElementById('noBabiesState').classList.remove('d-none');
+      document.getElementById('scheduleContent').classList.add('d-none');
+      return;
+    }
 
-    <div id="noBabiesState" class="empty-state tracker-card d-none">
-      <div class="empty-state-icon"><i data-lucide="syringe"></i></div>
-      <div class="section-heading">No babies added yet</div>
-      <p class="text-muted-soft mb-0">Add a baby profile from the Dashboard to see their schedule here.</p>
-    </div>
+    const preferredBabyId = localStorage.getItem('babycare_selected_baby');
+    const matchExists = babiesCache.some((b) => String(b.id) === String(preferredBabyId));
+    selectedBabyId = matchExists ? preferredBabyId : babiesCache[0].id;
 
-    <div id="scheduleContent" class="tracker-card d-none" style="padding: 0;">
-      <div class="table-responsive">
-        <table class="table table-soft table-stack mb-0">
-          <thead>
-            <tr>
-              <th>Vaccine</th>
-              <th>Description</th>
-              <th>Scheduled date</th>
-            </tr>
-          </thead>
-          <tbody id="vaccineTableBody">
-          </tbody>
-        </table>
-      </div>
-    </div>
+    loadSchedule();
+  } catch (err) {
+    showAlert('pageAlert', err.message);
+  }
+}
 
-  </main>
+async function loadSchedule() {
+  document.getElementById('noBabiesState').classList.add('d-none');
+  document.getElementById('scheduleContent').classList.remove('d-none');
 
-  <script src="../js/api.js"></script>
-  <script src="../js/nav-toggle.js"></script>
-  <script src="../js/vaccines.js"></script>
-  <script src="../js/vendor/lucide.min.js"></script>
-  <script>
-    const renderIcons = () => lucide.createIcons();
-    renderIcons();
-    let iconObserver;
-    const renderDynamicIcons = () => {
-      iconObserver.disconnect();
-      renderIcons();
-      iconObserver.observe(document.body, { childList: true, subtree: true });
-    };
-    iconObserver = new MutationObserver((mutations) => {
-      if (mutations.some((mutation) => [...mutation.addedNodes].some((node) => node.nodeType === 1 && node.matches('[data-lucide]')))) renderDynamicIcons();
-    });
-    iconObserver.observe(document.body, { childList: true, subtree: true });
-  </script>
-</body>
-</html>
+  const tbody = document.getElementById('vaccineTableBody');
+  tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted-soft py-4">Loading schedule…</td></tr>`;
+
+  try {
+    const result = await apiRequest(`/vaccinations/${selectedBabyId}`);
+    const schedule = result.data.sort((a, b) => new Date(a.scheduled_date) - new Date(b.scheduled_date));
+
+    if (schedule.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted-soft py-4">No vaccine schedule found.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = schedule.map((item) => `
+      <tr>
+        <td data-label="Vaccine" class="fw-bold">${item.vaccines.name}</td>
+        <td data-label="Description" class="text-muted-soft small">${item.vaccines.description}</td>
+        <td data-label="Scheduled date">${formatDate(item.scheduled_date)}</td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted-soft py-4">Could not load schedule.</td></tr>`;
+  }
+}
