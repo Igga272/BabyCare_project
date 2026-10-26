@@ -42,10 +42,15 @@ async function getVaccineScheduleByBaby(req, res, next) {
       return next(err);
     }
 
+    const schedule = data.map((v) => ({
+      ...v,
+      status: calculateStatus(v.scheduled_date, v.status)
+    }));
+
     res.status(200).json({
       success: true,
       message: 'Vaccine schedule retrieved successfully',
-      data
+      data: schedule
     });
   } catch (err) {
     next(err);
@@ -124,23 +129,18 @@ async function updateVaccinationSchedule(req, res, next) {
       return next(err);
     }
 
-    let finalStatus;
-    let finalCompletedDate;
-
-    if (existing.status === 'completed' && existing.completed_date) {
-      finalStatus = 'completed';
-      finalCompletedDate = existing.completed_date;
-    } else {
-      finalStatus = calculateStatus(scheduled_date);
-      finalCompletedDate = null;
+    if (existing.status === 'completed') {
+      const err = new Error('Completed vaccinations cannot be rescheduled');
+      err.statusCode = 400;
+      return next(err);
     }
 
     const { data, error } = await supabase
       .from('baby_vaccinations')
       .update({
         scheduled_date,
-        status: finalStatus,
-        completed_date: finalCompletedDate
+        status: calculateStatus(scheduled_date, existing.status),
+        completed_date: null
       })
       .eq('id', id)
       .select('id, baby_id, scheduled_date, status, completed_date, vaccines(name, description, dose_number)');

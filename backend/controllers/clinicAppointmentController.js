@@ -115,7 +115,7 @@ async function deleteAppointment(req, res, next) {
 
 async function addCheckupForBaby(req, res, next) {
   try {
-    const { baby_id, checkup_date, weight_kg, height_cm, head_circumference_cm, doctor_notes, appointment_id, doctor_id } = req.body;
+    const { baby_id, checkup_date, doctor_notes, appointment_id, doctor_id } = req.body;
 
     if (!baby_id || !checkup_date) {
       const err = new Error('baby_id and checkup_date are required');
@@ -126,7 +126,7 @@ async function addCheckupForBaby(req, res, next) {
     const { data, error } = await supabase
       .from('checkup_records')
       .insert([{
-        baby_id, checkup_date, weight_kg, height_cm, head_circumference_cm,
+        baby_id, checkup_date,
         doctor_notes, appointment_id: appointment_id || null, doctor_id: doctor_id || null
       }])
       .select();

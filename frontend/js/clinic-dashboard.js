@@ -3,6 +3,11 @@ let medScheduleTimes = [];
 document.addEventListener('DOMContentLoaded', () => {
   requireAuth();
 
+  const currentUser = typeof getStoredUser === 'function' ? getStoredUser() : null;
+  if (currentUser && currentUser.role === 'admin') {
+    document.getElementById('adminDashboardLink').classList.remove('d-none');
+  }
+
   document.getElementById('logoutBtn').addEventListener('click', () => {
     clearToken();
     window.location.href = 'login.html';
@@ -317,9 +322,6 @@ async function handleAddCheckup(e) {
     appointment_id: document.getElementById('checkupAppointmentId').value,
     doctor_id: document.getElementById('checkupDoctorId').value,
     checkup_date: document.getElementById('checkupDate').value,
-    weight_kg: document.getElementById('checkupWeight').value || null,
-    height_cm: document.getElementById('checkupHeight').value || null,
-    head_circumference_cm: document.getElementById('checkupHeadCirc').value || null,
     doctor_notes: document.getElementById('checkupNotes').value.trim()
   };
 

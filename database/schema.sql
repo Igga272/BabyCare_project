@@ -108,8 +108,8 @@ BEGIN
     UPDATE baby_vaccinations bv
     SET scheduled_date = b.date_of_birth + NEW.recommended_age_days,
         status = CASE
-          WHEN CURRENT_DATE > (b.date_of_birth + NEW.recommended_age_days + 30) THEN 'overdue'
-          WHEN CURRENT_DATE >= (b.date_of_birth + NEW.recommended_age_days) THEN 'due'
+          WHEN (NOW() AT TIME ZONE 'Asia/Manila')::date > (b.date_of_birth + NEW.recommended_age_days) THEN 'overdue'
+          WHEN (NOW() AT TIME ZONE 'Asia/Manila')::date >= (b.date_of_birth + NEW.recommended_age_days) THEN 'due'
           ELSE 'upcoming'
         END
     FROM babies b

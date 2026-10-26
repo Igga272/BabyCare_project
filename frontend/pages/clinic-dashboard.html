@@ -20,6 +20,7 @@
 
     <button class="nav-toggle-btn" id="navToggleBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="#4A3E4E" stroke-width="2" stroke-linecap="round"/></svg></button>
     <div class="nav-links" id="navLinksMenu">
+      <a href="admin-dashboard.html" class="nav-link-figma d-none" id="adminDashboardLink">Dashboard</a>
       <a href="clinic-dashboard.html" class="nav-link-figma active">Appointments</a>
       <a href="admin-pediatricians.html" class="nav-link-figma">Pediatricians</a>
       <div class="nav-divider-v"></div>
@@ -83,24 +84,6 @@
             <div class="field-group">
               <label class="field-label">Checkup date</label>
               <div class="input-box"><input type="date" id="checkupDate" required></div>
-            </div>
-            <div class="row">
-              <div class="col-6">
-                <div class="field-group">
-                  <label class="field-label">Weight (kg)</label>
-                  <div class="input-box"><input type="number" step="0.01" id="checkupWeight"></div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="field-group">
-                  <label class="field-label">Length (cm)</label>
-                  <div class="input-box"><input type="number" step="0.1" id="checkupHeight"></div>
-                </div>
-              </div>
-            </div>
-            <div class="field-group">
-              <label class="field-label">Head circumference (cm)</label>
-              <div class="input-box"><input type="number" step="0.1" id="checkupHeadCirc"></div>
             </div>
             <div class="field-group">
               <label class="field-label">Doctor's notes</label>

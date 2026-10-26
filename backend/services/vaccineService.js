@@ -1,19 +1,27 @@
 ﻿const supabase = require('../config/supabase');
 
+function todayInManila() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Manila' }).format(new Date());
+}
+
 function addDays(dateString, days) {
   const date = new Date(dateString);
-  date.setDate(date.getDate() + days);
+  date.setUTCDate(date.getUTCDate() + days);
   return date.toISOString().split('T')[0];
 }
 
-function calculateStatus(scheduledDate) {
-  const today = new Date().toISOString().split('T')[0];
-  const overdueThreshold = addDays(scheduledDate, 30);
+function calculateStatus(scheduledDate, currentStatus) {
+  if (currentStatus === 'completed') {
+    return 'completed';
+  }
 
-  if (today > overdueThreshold) {
+  const today = todayInManila();
+  const scheduled = String(scheduledDate).slice(0, 10);
+
+  if (today > scheduled) {
     return 'overdue';
   }
-  if (today >= scheduledDate) {
+  if (today === scheduled) {
     return 'due';
   }
   return 'upcoming';
@@ -47,4 +55,4 @@ async function generateVaccineSchedule(babyId, dateOfBirth) {
   }
 }
 
-module.exports = { generateVaccineSchedule, calculateStatus };
+module.exports = { generateVaccineSchedule, calculateStatus, todayInManila };

@@ -6,6 +6,7 @@
   <title>Vaccine Card — BabyCare</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
+  <link href="../css/vaccine-card-print.css" rel="stylesheet" media="print">
 </head>
 <body>
 
@@ -34,9 +35,15 @@
 
     <div id="pageAlert"></div>
 
-    <div>
-      <div class="card-eyebrow">Immunization</div>
-      <h1 class="quick-nav-title mb-0">Digital Vaccine Card</h1>
+    <div class="no-print d-flex justify-content-between align-items-end flex-wrap gap-3">
+      <div>
+        <div class="card-eyebrow">Immunization</div>
+        <h1 class="quick-nav-title mb-0">Digital Vaccine Card</h1>
+      </div>
+      <button type="button" class="btn btn-primary d-none" id="downloadPdfBtn">
+        <i data-lucide="download" style="width:16px;height:16px;vertical-align:-3px;"></i>
+        Download PDF
+      </button>
     </div>
 
     <div id="noBabiesState" class="empty-state tracker-card d-none">
@@ -91,6 +98,8 @@
 
   </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
   <script src="../js/api.js"></script>
   <script src="../js/nav-toggle.js"></script>
   <script src="../js/vaccine-card.js"></script>
