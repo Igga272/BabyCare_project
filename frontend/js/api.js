@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://babycareproject-production.up.railway.app/api';
+const API_BASE_URL = 'https://babycare-92a9.onrender.com/api';
 
 function getToken() {
   return localStorage.getItem('babycare_token');
