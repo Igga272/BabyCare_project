@@ -147,6 +147,16 @@ async function handleVaccineEditSubmit(e) {
   }
 }
 
+// On mobile, "table-stack" turns each row into a stacked card
+// (uses the data-label on each <td> as the field label).
+function buildTable(headers, rowsHtml) {
+  return `<div class="table-responsive"><table class="table table-soft table-stack mb-0"><thead><tr>${headers.map((h) => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rowsHtml}</tbody></table></div>`;
+}
+
+function emptyRow(colspan) {
+  return `<tr><td colspan="${colspan}" class="text-center text-muted-soft py-3" style="justify-content:center;">No records</td></tr>`;
+}
+
 function renderTabContent() {
   const container = document.getElementById('tabContent');
   if (!currentProfile) return;
@@ -155,62 +165,62 @@ function renderTabContent() {
     const editable = canEditVaccines();
     const rows = currentProfile.vaccinations.map((v) => `
       <tr>
-        <td class="fw-bold">${v.vaccines?.name || '—'}</td>
-        <td>${formatDate(v.scheduled_date)}</td>
-        <td>${statusBadgeHtml(v.status)}</td>
-        <td>${v.completed_date ? formatDate(v.completed_date) : '—'}</td>
-        ${editable ? `<td><button type="button" class="btn btn-sm btn-outline-primary" onclick="openVaccineEditModal(${v.id}, '${(v.vaccines?.name || '').replace(/'/g, "\\'")}', '${v.scheduled_date}')">Edit</button></td>` : ''}
+        <td class="fw-bold" data-label="Vaccine">${v.vaccines?.name || '—'}</td>
+        <td data-label="Scheduled">${formatDate(v.scheduled_date)}</td>
+        <td data-label="Status">${statusBadgeHtml(v.status)}</td>
+        <td data-label="Given">${v.completed_date ? formatDate(v.completed_date) : '—'}</td>
+        ${editable ? `<td class="appt-actions-cell"><button type="button" class="btn btn-sm btn-outline-primary" onclick="openVaccineEditModal(${v.id}, '${(v.vaccines?.name || '').replace(/'/g, "\\'")}', '${v.scheduled_date}')">Edit</button></td>` : ''}
       </tr>
-    `).join('') || `<tr><td colspan="${editable ? 5 : 4}" class="text-center text-muted-soft py-3">No records</td></tr>`;
-    container.innerHTML = `<div class="table-responsive"><table class="table table-soft mb-0"><thead><tr><th>Vaccine</th><th>Scheduled</th><th>Status</th><th>Given</th>${editable ? '<th>Actions</th>' : ''}</tr></thead><tbody>${rows}</tbody></table></div>`;
+    `).join('') || emptyRow(editable ? 5 : 4);
+    container.innerHTML = buildTable(['Vaccine', 'Scheduled', 'Status', 'Given', ...(editable ? ['Actions'] : [])], rows);
   }
 
   if (activeTab === 'checkups') {
     const rows = currentProfile.checkups.map((c) => `
       <tr>
-        <td class="fw-bold">${formatDate(c.checkup_date)}</td>
-        <td>${c.doctors?.full_name || '—'}</td>
-        <td>${c.weight_kg ? c.weight_kg + ' kg' : '—'}</td>
-        <td>${c.height_cm ? c.height_cm + ' cm' : '—'}</td>
-        <td>${c.doctor_notes || '—'}</td>
+        <td class="fw-bold" data-label="Date">${formatDate(c.checkup_date)}</td>
+        <td data-label="Doctor">${c.doctors?.full_name || '—'}</td>
+        <td data-label="Weight">${c.weight_kg ? c.weight_kg + ' kg' : '—'}</td>
+        <td data-label="Length">${c.height_cm ? c.height_cm + ' cm' : '—'}</td>
+        <td class="td-long" data-label="Notes">${c.doctor_notes || '—'}</td>
       </tr>
-    `).join('') || `<tr><td colspan="5" class="text-center text-muted-soft py-3">No records</td></tr>`;
-    container.innerHTML = `<div class="table-responsive"><table class="table table-soft mb-0"><thead><tr><th>Date</th><th>Doctor</th><th>Weight</th><th>Length</th><th>Notes</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    `).join('') || emptyRow(5);
+    container.innerHTML = buildTable(['Date', 'Doctor', 'Weight', 'Length', 'Notes'], rows);
   }
 
   if (activeTab === 'tests') {
     const rows = currentProfile.newbornTests.map((t) => `
       <tr>
-        <td class="fw-bold">${t.test_type}</td>
-        <td>${statusBadgeHtml(t.status)}</td>
-        <td>${t.date_conducted ? formatDate(t.date_conducted) : '—'}</td>
-        <td>${t.result || '—'}</td>
+        <td class="fw-bold" data-label="Test">${t.test_type}</td>
+        <td data-label="Status">${statusBadgeHtml(t.status)}</td>
+        <td data-label="Date">${t.date_conducted ? formatDate(t.date_conducted) : '—'}</td>
+        <td class="td-long" data-label="Result">${t.result || '—'}</td>
       </tr>
-    `).join('') || `<tr><td colspan="4" class="text-center text-muted-soft py-3">No records</td></tr>`;
-    container.innerHTML = `<div class="table-responsive"><table class="table table-soft mb-0"><thead><tr><th>Test</th><th>Status</th><th>Date</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    `).join('') || emptyRow(4);
+    container.innerHTML = buildTable(['Test', 'Status', 'Date', 'Result'], rows);
   }
 
   if (activeTab === 'medications') {
     const rows = currentProfile.medications.map((m) => `
       <tr>
-        <td class="fw-bold">${m.medicine_name}</td>
-        <td>${m.dosage || '—'}</td>
-        <td>${m.schedule_times || '—'}</td>
-        <td>${formatDate(m.start_date)}${m.end_date ? ' – ' + formatDate(m.end_date) : ''}</td>
+        <td class="fw-bold" data-label="Medicine">${m.medicine_name}</td>
+        <td data-label="Dosage">${m.dosage || '—'}</td>
+        <td data-label="Schedule">${m.schedule_times || '—'}</td>
+        <td data-label="Duration">${formatDate(m.start_date)}${m.end_date ? ' – ' + formatDate(m.end_date) : ''}</td>
       </tr>
-    `).join('') || `<tr><td colspan="4" class="text-center text-muted-soft py-3">No records</td></tr>`;
-    container.innerHTML = `<div class="table-responsive"><table class="table table-soft mb-0"><thead><tr><th>Medicine</th><th>Dosage</th><th>Schedule</th><th>Duration</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    `).join('') || emptyRow(4);
+    container.innerHTML = buildTable(['Medicine', 'Dosage', 'Schedule', 'Duration'], rows);
   }
 
   if (activeTab === 'growth') {
     const rows = [...currentProfile.growth].reverse().map((g) => `
       <tr>
-        <td class="fw-bold">${formatDate(g.record_date)}</td>
-        <td>${g.weight_kg ? g.weight_kg + ' kg' : '—'}</td>
-        <td>${g.height_cm ? g.height_cm + ' cm' : '—'}</td>
-        <td>${g.head_circumference_cm ? g.head_circumference_cm + ' cm' : '—'}</td>
+        <td class="fw-bold" data-label="Date">${formatDate(g.record_date)}</td>
+        <td data-label="Weight">${g.weight_kg ? g.weight_kg + ' kg' : '—'}</td>
+        <td data-label="Length">${g.height_cm ? g.height_cm + ' cm' : '—'}</td>
+        <td data-label="Head Circ.">${g.head_circumference_cm ? g.head_circumference_cm + ' cm' : '—'}</td>
       </tr>
-    `).join('') || `<tr><td colspan="4" class="text-center text-muted-soft py-3">No records</td></tr>`;
-    container.innerHTML = `<div class="table-responsive"><table class="table table-soft mb-0"><thead><tr><th>Date</th><th>Weight</th><th>Length</th><th>Head Circ.</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    `).join('') || emptyRow(4);
+    container.innerHTML = buildTable(['Date', 'Weight', 'Length', 'Head Circ.'], rows);
   }
 }
