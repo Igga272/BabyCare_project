@@ -122,4 +122,35 @@ async function toggleReminder(req, res, next) {
   }
 }
 
-module.exports = { getMedicationsByBaby, createMedication, toggleReminder };
+async function deleteMedication(req, res, next) {
+  try {
+    const { id } = req.params;
+    const parentId = await getParentIdFromUser(req.user.id);
+
+    const { data: med } = await supabase
+      .from('medications')
+      .select('id, babies(parent_id)')
+      .eq('id', id)
+      .single();
+
+    if (!med || !parentId || med.babies.parent_id !== parentId) {
+      const err = new Error('Medication not found');
+      err.statusCode = 404;
+      return next(err);
+    }
+
+    const { error } = await supabase.from('medications').delete().eq('id', id);
+
+    if (error) {
+      const err = new Error(error.message);
+      err.statusCode = 500;
+      return next(err);
+    }
+
+    res.status(200).json({ success: true, message: 'Medication deleted' });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { getMedicationsByBaby, createMedication, toggleReminder, deleteMedication };

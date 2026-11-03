@@ -28,6 +28,8 @@ async function loadMedications() {
     const result = await apiRequest(`/medications/${currentBabyId}`);
     const meds = result.data;
     const listEl = document.getElementById('medList');
+    listEl.innerHTML = '';
+    document.getElementById('emptyState').classList.add('d-none');
 
     if (meds.length === 0) {
       document.getElementById('emptyState').classList.remove('d-none');
@@ -42,7 +44,12 @@ async function loadMedications() {
             <div class="title-group-figma">
               <span style="font-size:18px;">${m.medicine_name}</span>
             </div>
-            <span class="status-badge-figma ${isActive ? 'status-confirmed-figma' : 'status-cancelled-figma'}">${isActive ? 'Active' : 'Ended'}</span>
+            <div class="d-flex align-items-center gap-2">
+              <span class="status-badge-figma ${isActive ? 'status-confirmed-figma' : 'status-cancelled-figma'}">${isActive ? 'Active' : 'Ended'}</span>
+              <button type="button" class="btn btn-soft-danger btn-sm" aria-label="Delete medicine" onclick="deleteMedication(${m.id})">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14M10 11v6M14 11v6"/></svg>
+              </button>
+            </div>
           </div>
           <div class="vaccine-desc-figma">Dosage: ${m.dosage || '—'}</div>
           <div class="vaccine-desc-figma">Schedule: ${m.schedule_times || '—'}</div>
@@ -69,6 +76,16 @@ async function toggleReminder(id, checked) {
       body: JSON.stringify({ reminder_on: checked })
     });
     document.querySelector(`label[for="reminder${id}"]`).textContent = `Reminder ${checked ? 'ON' : 'OFF'}`;
+  } catch (err) {
+    showAlert('pageAlert', err.message);
+  }
+}
+
+async function deleteMedication(id) {
+  if (!confirm('Delete this medicine? This cannot be undone.')) return;
+  try {
+    await apiRequest(`/medications/${id}`, { method: 'DELETE' });
+    loadMedications();
   } catch (err) {
     showAlert('pageAlert', err.message);
   }
