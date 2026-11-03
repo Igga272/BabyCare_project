@@ -82,7 +82,6 @@ async function toggleReminder(id, checked) {
 }
 
 async function deleteMedication(id) {
-  if (!confirm('Delete this medicine? This cannot be undone.')) return;
   try {
     await apiRequest(`/medications/${id}`, { method: 'DELETE' });
     loadMedications();
