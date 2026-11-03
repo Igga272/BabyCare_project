@@ -52,7 +52,7 @@ async function loadSchedule() {
     tbody.innerHTML = schedule.map((item) => `
       <tr>
         <td data-label="Vaccine" class="fw-bold">${item.vaccines.name}</td>
-        <td data-label="Description" class="text-muted-soft small">${item.vaccines.description}</td>
+        <td data-label="Description" class="td-long text-muted-soft small">${item.vaccines.description}</td>
         <td data-label="Scheduled date">${formatDate(item.scheduled_date)}</td>
       </tr>
     `).join('');

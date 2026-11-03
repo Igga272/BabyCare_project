@@ -56,7 +56,6 @@ a:hover {
   color: var(--color-primary);
 }
 
-/* ---------- Layout: Auth pages (matches Figma spec) ---------- */
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -316,7 +315,6 @@ a:hover {
   margin-bottom: 28px;
 }
 
-/* ---------- Forms ---------- */
 .form-label {
   font-weight: 700;
   font-size: 0.85rem;
@@ -387,7 +385,6 @@ a:hover {
   color: #fff;
 }
 
-/* ---------- Figma-matched Dashboard shell ---------- */
 .navbar-figma {
   box-sizing: border-box;
   display: flex;
@@ -488,7 +485,6 @@ a:hover {
   margin: 0 auto;
 }
 
-/* ---------- Baby hero card v2 ---------- */
 .baby-hero-card-v2 {
   display: flex;
   flex-wrap: wrap;
@@ -606,7 +602,6 @@ a:hover {
 }
 .icon-btn-circle:hover { transform: translateY(-1px); }
 
-/* ---------- Tracker cards ---------- */
 .trackers-row {
   display: flex;
   gap: 24px;
@@ -734,7 +729,6 @@ a:hover {
   transition: width 0.4s ease;
 }
 
-/* ---------- Quick nav section ---------- */
 .quick-nav-section { display: flex; flex-direction: column; gap: 16px; }
 
 .quick-nav-title {
@@ -789,7 +783,6 @@ a:hover {
   color: var(--color-text-muted);
 }
 
-/* ---------- Tab pills (appointments filter) ---------- */
 .nav-pill {
   border: 2px solid var(--color-border);
   background: #fff;
@@ -811,7 +804,6 @@ a:hover {
   color: #fff;
 }
 
-/* ---------- Mobile responsiveness ---------- */
 .nav-toggle-btn {
   display: none;
   background: none;
@@ -930,7 +922,6 @@ a:hover {
   .nav-link-figma { font-size: 13px; }
 }
 
-/* ---------- Auth pages mobile polish ---------- */
 @media (max-width: 991px) {
   .auth-illustration {
     padding: 32px 24px;
@@ -968,7 +959,6 @@ a:hover {
   .form-footer { justify-content: center; }
 }
 
-/* ---------- Cards ---------- */
 .card {
   border: none;
   border-radius: var(--radius-md);
@@ -1055,7 +1045,6 @@ a:hover {
   font-weight: 700;
 }
 
-/* ---------- Badges (status pills) ---------- */
 .badge-pill {
   border-radius: 999px;
   padding: 6px 14px;
@@ -1079,7 +1068,6 @@ a:hover {
   display: inline-block;
 }
 
-/* ---------- Table ---------- */
 .table-soft thead {
   background-color: var(--color-bg-alt);
 }
@@ -1100,7 +1088,6 @@ a:hover {
   border-bottom: none;
 }
 
-/* ---------- Empty / loading states ---------- */
 .empty-state {
   text-align: center;
   padding: 48px 20px;
@@ -1477,5 +1464,30 @@ a:hover {
   .vaccine-card-table td {
     padding: 8px 10px;
     font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table.table-stack td[data-label]::before {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .table.table-stack td {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .table.table-stack td.td-long {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 2px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table.table-stack .badge-pill {
+    white-space: nowrap;
   }
 }

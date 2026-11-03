@@ -34,9 +34,9 @@ async function loadUsers() {
 
     tbody.innerHTML = result.data.map((u) => `
       <tr>
-        <td>${u.email}</td>
-        <td><span class="badge-pill badge-upcoming">${u.role}</span></td>
-        <td>${formatDate(u.created_at)}</td>
+        <td data-label="Email" class="td-long">${u.email}</td>
+        <td data-label="Role"><span class="badge-pill badge-upcoming">${u.role}</span></td>
+        <td data-label="Joined">${formatDate(u.created_at)}</td>
       </tr>
     `).join('');
   } catch (err) {

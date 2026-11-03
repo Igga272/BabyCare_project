@@ -73,12 +73,12 @@ async function loadAppointments() {
 
       return `
         <tr>
-          <td class="fw-bold">${a.babies?.full_name || '—'}</td>
-          <td>${a.doctors?.full_name || '—'}</td>
-          <td>${formatDate(a.appointment_date)}</td>
-          <td>${a.appointment_time}</td>
-          <td><span class="status-badge-figma ${status.className}">${status.label}</span></td>
-          <td class="text-end">${actions}</td>
+          <td data-label="Baby" class="fw-bold">${a.babies?.full_name || '—'}</td>
+          <td data-label="Doctor">${a.doctors?.full_name || '—'}</td>
+          <td data-label="Date">${formatDate(a.appointment_date)}</td>
+          <td data-label="Time">${a.appointment_time ? formatTimeDisplay(a.appointment_time) : '—'}</td>
+          <td data-label="Status"><span class="status-badge-figma ${status.className}">${status.label}</span></td>
+          <td class="text-end appt-actions-cell"><div class="appt-actions">${actions}</div></td>
         </tr>
       `;
     }).join('');
